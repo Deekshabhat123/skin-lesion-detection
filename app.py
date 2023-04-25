@@ -31,7 +31,8 @@ classes = [
    'Dermatofibroma',
    'Melanoma',
    'Melanocytic Nevi',
-   'Vascular naevus'
+   'Vascular naevus',
+   'Normal Skin'
 
 ]
 
@@ -85,9 +86,9 @@ def contact():
 
 
 
-@app.route('/login/')
-def login():
-    return render_template("login.html")
+@app.route('/service/')
+def service():
+    return render_template("service.html")
     
 
 
@@ -146,12 +147,16 @@ def success():
                         "prob2": prob_result[1],
                         "prob3": prob_result[2],
                 }
+                if class_result[0] == 'Normal Skin':
+                    output_text = "This image contains normal skin."
+                else:
+                    output_text = "This image contains skin with a lesion."
 
             else:
                 error = "Please upload images of jpg , jpeg and png extension only"
 
             if(len(error) == 0):
-                return  render_template('success.html' , img  = img , predictions = predictions)
+                return  render_template('success.html' , img  = img , predictions = predictions, output_text = output_text)
             else:
                 return render_template('index.html' , error = error)
 
